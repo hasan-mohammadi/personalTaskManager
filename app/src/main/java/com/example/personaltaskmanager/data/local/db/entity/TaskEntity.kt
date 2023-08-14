@@ -2,6 +2,7 @@ package com.example.personaltaskmanager.data.local.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.personaltaskmanager.data.model.Task
 
 @Entity
 data class TaskEntity(
@@ -11,3 +12,6 @@ data class TaskEntity(
     val description:String ,
     val deadline:Long
 )
+
+fun TaskEntity.asUiModel()=
+    Task(id , title , description, deadline)
