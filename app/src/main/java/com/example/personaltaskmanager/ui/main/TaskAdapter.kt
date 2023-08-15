@@ -18,6 +18,9 @@ class TaskAdapter(var onItemClicked: (Int) -> Unit) :
     inner class ViewHolder(val binding: TaskItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Task?) {
             binding.tvTitle.text=item?.title
+            binding.tvDescription.text = item?.description
+            binding.tvDeadline.text = item?.getDeadlineDateString()
+
         }
 
         init {
