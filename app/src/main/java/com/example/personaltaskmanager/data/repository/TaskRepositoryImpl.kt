@@ -1,5 +1,6 @@
 package com.example.personaltaskmanager.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -24,6 +25,7 @@ class TaskRepositoryImpl @Inject constructor(
         val response = safeApiCall {
             remoteDataSource.fetchAllTasks()
         }
+
         return when (response) {
             is Resource.Success -> {
                 localDataSource.insertTask(response.data.map {
@@ -38,7 +40,7 @@ class TaskRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getTaskList(searchQuery: String): Flow<PagingData<Task>> {
+    override  fun getTaskList(searchQuery: String): Flow<PagingData<Task>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,

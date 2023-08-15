@@ -7,7 +7,7 @@ import retrofit2.http.GET
 
 interface TaskService {
 
-    @GET("04ed5f15-a80c-4164-b511-3c3091a77140")
+    @GET("fe4abd0f-1221-486b-b736-8f263da0d9bd")
     suspend fun fetchAllTasks(): Response<List<TaskResponse>>
 
 }

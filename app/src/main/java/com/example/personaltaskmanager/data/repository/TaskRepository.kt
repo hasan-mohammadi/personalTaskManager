@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface TaskRepository {
 
-    suspend fun getTaskList(searchQuery:String): Flow<PagingData<Task>>
+     fun getTaskList(searchQuery:String): Flow<PagingData<Task>>
     suspend fun fetchAllTasks():Resource<Unit>
     suspend fun addNewTask(taskEntity: TaskEntity)
     suspend fun deleteTask(taskId:Int)

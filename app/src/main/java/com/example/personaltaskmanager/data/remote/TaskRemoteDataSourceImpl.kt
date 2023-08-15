@@ -8,6 +8,7 @@ import javax.inject.Inject
 class TaskRemoteDataSourceImpl @Inject constructor(private val taskService: TaskService):TaskRemoteDataSource {
 
     override suspend fun fetchAllTasks(): Response<List<TaskResponse>> {
+
         return taskService.fetchAllTasks()
     }
 }
