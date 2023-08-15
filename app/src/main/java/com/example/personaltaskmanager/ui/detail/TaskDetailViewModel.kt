@@ -1,10 +1,17 @@
 package com.example.personaltaskmanager.ui.detail
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.personaltaskmanager.data.model.Task
 import com.example.personaltaskmanager.data.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import java.util.Date
 import javax.inject.Inject
 
@@ -44,6 +51,14 @@ class TaskDetailViewModel @Inject constructor(val repository: TaskRepository) : 
             minute = ((diff % dayMs) % hourMs) / minMs,
             second = (((diff % dayMs) % hourMs) % minMs) / 1000
         )
+    }
+    val taskDeletedResponse = MutableSharedFlow<Boolean>()
+    fun deleteTask(task:Task){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteTask(task.id)
+            taskDeletedResponse.emit(true)
+
+        }
     }
 
 }

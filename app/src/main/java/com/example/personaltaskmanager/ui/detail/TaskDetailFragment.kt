@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.personaltaskmanager.R
 import com.example.personaltaskmanager.databinding.FragmentTaskDetailBinding
 import com.example.personaltaskmanager.utils.collectFlowAtLifecycle
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,8 +45,26 @@ class TaskDetailFragment : Fragment() {
             tvTaskTitle.text = task.title
             tvTaskDesc.text = task.description
             tvDeadlineTime.text = task.getDeadlineDateString()
+            btnDelete.setOnClickListener {
+                showDeleteDialog()
+            }
 
         }
+
+    }
+
+    private fun showDeleteDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.delete_task_dialog_title))
+            .setMessage(resources.getString(R.string.delete_task_dialog_desc))
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                viewModel.deleteTask(args.task)
+            }
+            .setNegativeButton("Cancel") { dialog, which ->
+                dialog.cancel()
+            }
+
+            .show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,8 +76,8 @@ class TaskDetailFragment : Fragment() {
         collectFlowAtLifecycle(
             viewModel.countDownTimerFlow(1000, args.task.getDeadlineDate())
         ) { remainingTime ->
-            if (remainingTime==null){
-                binding.tvRemainingTime.text=getString(R.string.no_time_remained)
+            if (remainingTime == null) {
+                binding.tvRemainingTime.text = getString(R.string.no_time_remained)
                 return@collectFlowAtLifecycle
             }
             binding.tvRemainingTime.text = String.format(
@@ -69,8 +89,13 @@ class TaskDetailFragment : Fragment() {
             )
 
 
-
         }
+        collectFlowAtLifecycle(viewModel.taskDeletedResponse) {
+            if(it == true) {
+                findNavController().popBackStack()
+            }
+        }
+
     }
 
 
