@@ -3,6 +3,7 @@ package com.example.personaltaskmanager.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.personaltaskmanager.data.model.Task
 import com.example.personaltaskmanager.data.repository.TaskRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,13 +28,13 @@ class MainViewModel @Inject constructor(private val repository: TaskRepository) 
     fun fetchNewTasks(){
         viewModelScope.launch(Dispatchers.IO) {
             repository.fetchAllTasks()
-            _taskListFlow.emitAll(repository.getTaskList(""))
+            _taskListFlow.emitAll(repository.getTaskList("").cachedIn(viewModelScope))
         }
     }
 
     fun getTasks(searchQuery:String = ""){
         viewModelScope.launch(Dispatchers.IO) {
-            _taskListFlow.emitAll(repository.getTaskList(searchQuery))
+            _taskListFlow.emitAll(repository.getTaskList(searchQuery).cachedIn(viewModelScope))
         }
     }
 

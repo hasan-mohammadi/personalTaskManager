@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.personaltaskmanager.databinding.FragmentMainBinding
+import com.example.personaltaskmanager.utils.collectFlowAtLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -58,18 +57,17 @@ class MainFragment : Fragment() {
                 viewModel.getTasks(it.toString())
             }
         }
+        binding.fab.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddTaskFragment(null))
+        }
     }
 
     private fun setupObservers() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.taskListFlow.collectLatest {tasks->
+        collectFlowAtLifecycle(viewModel.taskListFlow) {tasks->
                     tasks?.let {
                         taskAdapter.submitData(it)
                     }
 
-                }
-            }
         }
     }
 
