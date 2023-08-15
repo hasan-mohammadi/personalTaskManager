@@ -53,7 +53,13 @@ class MainFragment : Fragment() {
             adapter = taskAdapter
         }
 
-
+        binding.inputSearch.addTextChangedListener {
+            searchJob = lifecycleScope.launch {
+                searchJob?.cancel()
+                delay(100)
+                viewModel.getTasks(it.toString())
+            }
+        }
     }
 
     private fun setupObservers() {
