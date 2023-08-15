@@ -26,6 +26,11 @@
             android:name="task"
             app:argType="com.example.personaltaskmanager.data.model.Task"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_addTaskFragment_to_taskDetailFragment2"
+            app:popUpTo="@id/addTaskFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/taskDetailFragment2" />
     </fragment>
     <fragment
         android:id="@+id/taskDetailFragment2"
@@ -34,6 +39,12 @@
         <argument
             android:name="task"
             app:argType="com.example.personaltaskmanager.data.model.Task" />
+        <action
+            android:id="@+id/action_taskDetailFragment2_to_addTaskFragment"
+            app:destination="@id/addTaskFragment"
+            app:popUpTo="@id/taskDetailFragment2"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
 </navigation>

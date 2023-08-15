@@ -48,6 +48,13 @@ class TaskDetailFragment : Fragment() {
             btnDelete.setOnClickListener {
                 showDeleteDialog()
             }
+            btnEdit.setOnClickListener {
+                findNavController().navigate(
+                    TaskDetailFragmentDirections.actionTaskDetailFragment2ToAddTaskFragment(
+                        args.task
+                    )
+                )
+            }
 
         }
 
@@ -91,7 +98,7 @@ class TaskDetailFragment : Fragment() {
 
         }
         collectFlowAtLifecycle(viewModel.taskDeletedResponse) {
-            if(it == true) {
+            if (it == true) {
                 findNavController().popBackStack()
             }
         }

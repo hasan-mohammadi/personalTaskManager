@@ -38,6 +38,7 @@ class AddTaskFragment : Fragment() {
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .build()
     }
+    var isEditMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +58,7 @@ class AddTaskFragment : Fragment() {
         setupObservers()
 
         args.task?.let {
+            isEditMode = true
             binding.inputTitle.setText(it.title)
             binding.inputDescription.setText(it.description)
             binding.btnDeadline.text = it.getDeadlineDateString()
@@ -102,7 +104,11 @@ class AddTaskFragment : Fragment() {
                     .setTitle(resources.getString(R.string.add_task_dialog_title))
                     .setMessage(resources.getString(R.string.add_task_dialog_desc))
                     .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                        if (!isEditMode)
                         findNavController().popBackStack()
+                        else {
+                            findNavController().navigate(AddTaskFragmentDirections.actionAddTaskFragmentToTaskDetailFragment2(task))
+                        }
                     }
                     .show()
             }
