@@ -12,16 +12,20 @@ import androidx.navigation.fragment.navArgs
 import com.example.personaltaskmanager.R
 import com.example.personaltaskmanager.data.model.Task
 import com.example.personaltaskmanager.databinding.FragmentAddTaskBinding
+import com.example.personaltaskmanager.utils.NotificationManager
 import com.example.personaltaskmanager.utils.collectFlowAtLifecycle
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 import java.util.Date
+
 
 @AndroidEntryPoint
 class AddTaskFragment : Fragment() {
+
     lateinit var binding: FragmentAddTaskBinding
     val viewModel: AddTaskViewModel by viewModels()
     val args: AddTaskFragmentArgs by navArgs()
@@ -62,7 +66,7 @@ class AddTaskFragment : Fragment() {
             binding.inputTitle.setText(it.title)
             binding.inputDescription.setText(it.description)
             binding.btnDeadline.text = it.getDeadlineDateString()
-            binding.btnAdd.text = getString(R.string.edit_task)
+            binding.btnAdd.text = getString(com.example.personaltaskmanager.R.string.edit_task)
         }
 
         binding.btnDeadline.setOnClickListener {
@@ -82,6 +86,8 @@ class AddTaskFragment : Fragment() {
                 description = binding.inputDescription.text.toString()
             )
             viewModel.addOrUpdateTask(task)
+            setupNotification()
+
         }
         datePicker.addOnPositiveButtonClickListener { timestamp ->
             timePicker.show(parentFragmentManager, "time_picker")
@@ -96,6 +102,41 @@ class AddTaskFragment : Fragment() {
         }
     }
 
+    private fun setupNotification() {
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = task.deadline
+        val currentMillis = Date().time
+        calendar.add(Calendar.HOUR, -3)
+        if (calendar.timeInMillis > currentMillis) {
+            NotificationManager(requireActivity())
+                .setupScheduledNotification(
+                    calendar.timeInMillis,
+                    task.title,
+                    "There is just 3 hour left to ${task.title} deadline"
+                )
+        }
+        calendar . add (Calendar.HOUR , -21)
+        if (calendar.timeInMillis > currentMillis) {
+            NotificationManager(requireActivity())
+                .setupScheduledNotification(
+                    calendar.timeInMillis,
+                    task.title,
+                    "There is just 1 day left to ${task.title} deadline"
+                )
+
+        }
+
+        NotificationManager(requireActivity())
+            .setupScheduledNotification(
+                currentMillis+60*1000,
+                task.title,
+                "There is 1 minute passed of defining ${task.title}"
+            )
+
+
+    }
+
+
     var selectedDateTimestamp = 0L
     private fun setupObservers() {
         collectFlowAtLifecycle(viewModel.addTaskResult) { isAdded ->
@@ -105,9 +146,13 @@ class AddTaskFragment : Fragment() {
                     .setMessage(resources.getString(R.string.add_task_dialog_desc))
                     .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
                         if (!isEditMode)
-                        findNavController().popBackStack()
+                            findNavController().popBackStack()
                         else {
-                            findNavController().navigate(AddTaskFragmentDirections.actionAddTaskFragmentToTaskDetailFragment2(task))
+                            findNavController().navigate(
+                                AddTaskFragmentDirections.actionAddTaskFragmentToTaskDetailFragment2(
+                                    task
+                                )
+                            )
                         }
                     }
                     .show()
@@ -115,5 +160,4 @@ class AddTaskFragment : Fragment() {
         }
 
     }
-
 }
