@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.personaltaskmanager.data.model.Task
 import com.example.personaltaskmanager.databinding.TaskItemBinding
 
-class TaskAdapter(var onItemClicked: (Int) -> Unit) :
+class TaskAdapter(var onItemClicked: (Task?) -> Unit) :
     PagingDataAdapter<Task, TaskAdapter.ViewHolder>(TaskDiffCallBack()) {
 
 
@@ -19,13 +19,13 @@ class TaskAdapter(var onItemClicked: (Int) -> Unit) :
         fun bind(item: Task?) {
             binding.tvTitle.text=item?.title
             binding.tvDescription.text = item?.description
-            binding.tvDeadline.text = item?.getDeadlineDateString()
+            binding.tvDeadlineTime.text = item?.getDeadlineDateString()
 
         }
 
         init {
             binding.root.setOnClickListener {
-                onItemClicked.invoke(getItem(absoluteAdapterPosition)?.id?:-1)
+                onItemClicked.invoke(getItem(absoluteAdapterPosition))
 
 
             }

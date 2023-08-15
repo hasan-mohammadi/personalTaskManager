@@ -8,6 +8,9 @@
     <string name="edit_task">Edit Task</string>
     <string name="title_hint">Title</string>
     <string name="description_hint">Description</string>
-    <string name="deadline">Deadline_button_text\n</string>
+    <string name="deadline_button_text">Deadline</string>
     <string name="add_task_button_text">Add Task</string>
+    <string name="delete_task_button_text">Delete</string>
+    <string name="edit_task_button_text">Edit</string>
+    <string name="no_time_remained">No time Remained</string>
 </resources>

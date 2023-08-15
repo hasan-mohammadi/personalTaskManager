@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="4dp"
+    android:layout_marginTop="12dp"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,11 +19,11 @@
             android:text="Title"
             android:layout_marginEnd="8dp"
             android:maxLines="1"
-            app:layout_constraintEnd_toStartOf="@+id/tv_deadline"
+            app:layout_constraintEnd_toStartOf="@+id/tv_deadline_time"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="@+id/guideline3" />
         <TextView
-            android:id="@+id/tv_deadline"
+            android:id="@+id/tv_deadline_time"
             style="@style/SmallTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

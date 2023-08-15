@@ -17,13 +17,13 @@ data class Task(
     fun getDeadlineDateString(): String? {
         return try {
             val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm" , Locale.getDefault())
-            val netDate = Date(deadline)
-            sdf.format(netDate)
+            sdf.format(getDeadlineDate())
         } catch (e: Exception) {
             ""
         }
 
     }
+    fun getDeadlineDate()= Date(deadline)
 }
 fun Task.toEntityObject()=
     TaskEntity(id, title, description, deadline)

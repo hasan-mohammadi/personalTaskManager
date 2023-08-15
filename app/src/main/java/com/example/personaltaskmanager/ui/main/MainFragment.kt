@@ -21,13 +21,20 @@ import kotlinx.coroutines.launch
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private val taskAdapter: TaskAdapter by lazy {
-        TaskAdapter {}
+        TaskAdapter {
+            it?.let { task ->
+                findNavController().navigate(
+                    MainFragmentDirections.actionMainFragmentToTaskDetailFragment22(
+                        task
+                    )
+                )
+            }
+        }
     }
     private val viewModel: MainViewModel by viewModels()
-    private var searchJob : Job? =null
+    private var searchJob: Job? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -58,15 +65,19 @@ class MainFragment : Fragment() {
             }
         }
         binding.fab.setOnClickListener {
-            findNavController().navigate(MainFragmentDirections.actionMainFragmentToAddTaskFragment(null))
+            findNavController().navigate(
+                MainFragmentDirections.actionMainFragmentToAddTaskFragment(
+                    null
+                )
+            )
         }
     }
 
     private fun setupObservers() {
-        collectFlowAtLifecycle(viewModel.taskListFlow) {tasks->
-                    tasks?.let {
-                        taskAdapter.submitData(it)
-                    }
+        collectFlowAtLifecycle(viewModel.taskListFlow) { tasks ->
+            tasks?.let {
+                taskAdapter.submitData(it)
+            }
 
         }
     }
