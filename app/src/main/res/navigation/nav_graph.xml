@@ -16,6 +16,10 @@
         <action
             android:id="@+id/action_mainFragment_to_taskDetailFragment22"
             app:destination="@id/taskDetailFragment2" />
+        <action
+            android:id="@+id/action_mainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment2" />
+
     </fragment>
     <fragment
         android:id="@+id/addTaskFragment"
@@ -46,5 +50,10 @@
             app:popUpToInclusive="true"
             />
     </fragment>
+    <dialog
+        android:id="@+id/settingsFragment2"
+        android:name="com.example.personaltaskmanager.ui.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 
 </navigation>

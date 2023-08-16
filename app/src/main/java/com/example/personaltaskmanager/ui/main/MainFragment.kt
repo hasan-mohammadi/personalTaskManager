@@ -31,7 +31,7 @@ class MainFragment : Fragment() {
             }
         }
     }
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: TaskListViewModel by viewModels()
     private var searchJob: Job? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +70,9 @@ class MainFragment : Fragment() {
                     null
                 )
             )
+        }
+        binding.ivSettings.setOnClickListener {
+            findNavController().navigate(MainFragmentDirections.actionMainFragmentToSettingsFragment())
         }
     }
 

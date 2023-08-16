@@ -15,4 +15,5 @@
     <string name="no_time_remained">No time Remained</string>
     <string name="delete_task_dialog_title">delete task</string>
     <string name="delete_task_dialog_desc">Do you rally want to delete this task?\nThis action is permanent and cant be undone</string>
+    <string name="settings_button_cs">settings_button</string>
 </resources>

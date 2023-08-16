@@ -1,6 +1,7 @@
 package com.example.personaltaskmanager.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.example.personaltaskmanager.data.local.db.MyDatabase
 import com.example.personaltaskmanager.data.local.db.TaskDao
@@ -27,4 +28,7 @@ object DatabaseModule {
     fun provideVideoItemDao(db:MyDatabase): TaskDao {
         return db.taskDao()
     }
+
+    @Provides
+    fun provideContext(app:Application): Context = app.applicationContext
 }

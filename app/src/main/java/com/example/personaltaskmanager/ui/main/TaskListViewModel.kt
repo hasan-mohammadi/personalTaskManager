@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val repository: TaskRepository) : ViewModel() {
+class TaskListViewModel @Inject constructor(private val repository: TaskRepository) : ViewModel() {
     private val _taskListFlow = MutableStateFlow<PagingData<Task>?>(null)
     val taskListFlow = _taskListFlow.asStateFlow()
 

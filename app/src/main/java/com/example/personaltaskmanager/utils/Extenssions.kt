@@ -1,5 +1,7 @@
 package com.example.personaltaskmanager.utils
 
+import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -9,6 +11,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 fun <T> Fragment.collectFlowAtLifecycle(flow: Flow<T> , collector:suspend (value:T?)->Unit){
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.STARTED){
+            flow.collectLatest(collector)
+        }
+    }
+}
+fun <T> AppCompatActivity.collectFlowAtLifecycle(flow: Flow<T> , collector:suspend (value:T?)->Unit){
     lifecycleScope.launch {
         repeatOnLifecycle(Lifecycle.State.STARTED){
             flow.collectLatest(collector)
