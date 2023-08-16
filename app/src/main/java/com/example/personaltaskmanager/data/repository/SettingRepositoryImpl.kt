@@ -4,7 +4,9 @@ import com.example.personaltaskmanager.data.local.data_preferences.SettingsDataS
 import com.example.personaltaskmanager.data.model.AppTheme
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SettingRepositoryImpl @Inject constructor(private val settingDataStore:SettingsDataStore):SettingRepository {
 
      override  fun getAppTheme(): Flow<AppTheme> {

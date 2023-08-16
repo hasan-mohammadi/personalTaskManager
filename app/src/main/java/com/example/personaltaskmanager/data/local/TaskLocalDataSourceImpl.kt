@@ -5,7 +5,9 @@ import com.example.personaltaskmanager.data.local.db.entity.TaskEntity
 import com.example.personaltaskmanager.data.local.db.entity.asUiModel
 import com.example.personaltaskmanager.data.model.Task
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TaskLocalDataSourceImpl @Inject constructor(private val taskDao:TaskDao):TaskLocalDataSource {
 
      override suspend fun getAllTasks(pageSize:Int , offset:Int , titleSearchQuery:String): List<Task> {

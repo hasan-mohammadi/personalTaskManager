@@ -13,7 +13,9 @@ import com.example.personaltaskmanager.utils.Resource
 import com.example.personaltaskmanager.utils.safeApiCall
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TaskRepositoryImpl @Inject constructor(
     private val localDataSource: TaskLocalDataSource,
     private val remoteDataSource: TaskRemoteDataSource
