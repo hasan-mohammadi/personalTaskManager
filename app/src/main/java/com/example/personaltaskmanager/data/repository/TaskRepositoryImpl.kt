@@ -1,6 +1,5 @@
 package com.example.personaltaskmanager.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -28,7 +27,7 @@ class TaskRepositoryImpl @Inject constructor(
 
         return when (response) {
             is Resource.Success -> {
-                localDataSource.insertTask(response.data.map {
+                localDataSource.insertTasks(response.data.map {
                     it.asDatabaseEntityModel()
                 })
                 Resource.Success(Unit)
@@ -54,8 +53,8 @@ class TaskRepositoryImpl @Inject constructor(
             }
         ).flow
     }
-    override suspend fun addNewTask(taskEntity: TaskEntity) {
-        localDataSource.insertTask(listOf(taskEntity))
+    override suspend fun addNewTasks(taskEntity: TaskEntity): Long {
+        return localDataSource.insertTask(taskEntity)
     }
 
     override suspend fun deleteTask(taskId:Int) {

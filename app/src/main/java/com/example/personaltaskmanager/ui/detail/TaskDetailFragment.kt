@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.personaltaskmanager.R
 import com.example.personaltaskmanager.databinding.FragmentTaskDetailBinding
+import com.example.personaltaskmanager.utils.NotificationManager
 import com.example.personaltaskmanager.utils.collectFlowAtLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -99,6 +100,15 @@ class TaskDetailFragment : Fragment() {
         }
         collectFlowAtLifecycle(viewModel.taskDeletedResponse) {
             if (it == true) {
+                NotificationManager(requireActivity()).cancelNotification(
+                    args.task.id*10000+1
+                )
+                NotificationManager(requireActivity()).cancelNotification(
+                    args.task.id*10000+2
+                )
+                NotificationManager(requireActivity()).cancelNotification(
+                    args.task.id*10000+3
+                )
                 findNavController().popBackStack()
             }
         }

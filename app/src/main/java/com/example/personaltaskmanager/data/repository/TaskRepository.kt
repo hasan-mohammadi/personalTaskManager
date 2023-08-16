@@ -10,6 +10,6 @@ interface TaskRepository {
 
      fun getTaskList(searchQuery:String): Flow<PagingData<Task>>
     suspend fun fetchAllTasks():Resource<Unit>
-    suspend fun addNewTask(taskEntity: TaskEntity)
+    suspend fun addNewTasks(taskEntity: TaskEntity):Long
     suspend fun deleteTask(taskId:Int)
 }

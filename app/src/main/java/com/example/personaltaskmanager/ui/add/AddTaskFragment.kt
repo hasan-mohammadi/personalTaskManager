@@ -86,7 +86,7 @@ class AddTaskFragment : Fragment() {
                 description = binding.inputDescription.text.toString()
             )
             viewModel.addOrUpdateTask(task)
-            setupNotification()
+
 
         }
         datePicker.addOnPositiveButtonClickListener { timestamp ->
@@ -102,7 +102,7 @@ class AddTaskFragment : Fragment() {
         }
     }
 
-    private fun setupNotification() {
+    private fun setupNotification(id: Int) {
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = task.deadline
         val currentMillis = Date().time
@@ -112,25 +112,29 @@ class AddTaskFragment : Fragment() {
                 .setupScheduledNotification(
                     calendar.timeInMillis,
                     task.title,
-                    "There is just 3 hour left to ${task.title} deadline"
+                    "There is just 3 hour left to ${task.title} deadline",
+                    id * 10000 + 1
                 )
+
         }
-        calendar . add (Calendar.HOUR , -21)
+        calendar.add(Calendar.HOUR, -21)
         if (calendar.timeInMillis > currentMillis) {
             NotificationManager(requireActivity())
                 .setupScheduledNotification(
                     calendar.timeInMillis,
                     task.title,
-                    "There is just 1 day left to ${task.title} deadline"
+                    "There is just 1 day left to ${task.title} deadline",
+                    id * 10000 + 2
                 )
 
         }
 
         NotificationManager(requireActivity())
             .setupScheduledNotification(
-                currentMillis+60*1000,
+                currentMillis + 60 * 1000,
                 task.title,
-                "There is 1 minute passed of defining ${task.title}"
+                "There is 1 minute passed of defining ${task.title}",
+                id * 10000 + 3
             )
 
 
@@ -139,8 +143,9 @@ class AddTaskFragment : Fragment() {
 
     var selectedDateTimestamp = 0L
     private fun setupObservers() {
-        collectFlowAtLifecycle(viewModel.addTaskResult) { isAdded ->
-            if (isAdded == true) {
+        collectFlowAtLifecycle(viewModel.addTaskResult) { id ->
+            if ((id ?: 0L) > 0L) {
+                setupNotification(id?.toInt()?:0)
                 MaterialAlertDialogBuilder(requireContext())
                     .setTitle(resources.getString(R.string.add_task_dialog_title))
                     .setMessage(resources.getString(R.string.add_task_dialog_desc))

@@ -14,9 +14,14 @@ class TaskLocalDataSourceImpl @Inject constructor(private val taskDao:TaskDao):T
          }
 
     }
-    override suspend fun insertTask(taskEntities: List<TaskEntity>) {
-        taskDao.insertTask(taskEntities)
+    override suspend fun insertTasks(taskEntities: List<TaskEntity>) {
+         taskDao.insertTask(taskEntities)
     }
+
+    override suspend fun insertTask(taskEntity: TaskEntity): Long {
+        return taskDao.insertTask(taskEntity)
+    }
+
     override suspend fun deleteTaskById(id:Int){
         taskDao.deleteTask(id)
     }

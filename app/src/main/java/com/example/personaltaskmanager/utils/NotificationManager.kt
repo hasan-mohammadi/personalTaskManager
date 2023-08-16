@@ -20,7 +20,7 @@ class NotificationManager(val activity: Activity) {
         createNotificationChannel()
     }
 
-    fun setupScheduledNotification(timeMillis: Long, title: String, description: String) {
+    fun setupScheduledNotification(timeMillis: Long, title: String, description: String , requestCode:Int) {
         createNotificationChannel()
         val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -29,8 +29,9 @@ class NotificationManager(val activity: Activity) {
         intent.putExtra(NOTIFICATION_TITLE_KEY, title)
         intent.putExtra(NOTIFICATION_DESC_KEY, description)
 
+
         val pendingIntent = PendingIntent.getBroadcast(
-            activity.applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT
+            activity.applicationContext, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         alarmManager.setExact(
@@ -53,6 +54,16 @@ class NotificationManager(val activity: Activity) {
                 activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+    fun cancelNotification(requestCode:Int){
+        val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent =
+            Intent(activity.applicationContext, MyNotificationPublisher::class.java)
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            activity.applicationContext, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        alarmManager.cancel(pendingIntent)
     }
 
 }

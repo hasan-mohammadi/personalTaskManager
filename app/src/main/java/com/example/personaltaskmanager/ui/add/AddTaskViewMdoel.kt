@@ -12,14 +12,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddTaskViewModel @Inject constructor(val repository: TaskRepository):ViewModel() {
+class AddTaskViewModel @Inject constructor(val repository: TaskRepository) : ViewModel() {
 
-    val addTaskResult = MutableStateFlow(false)
-fun addOrUpdateTask(task:Task){
-    viewModelScope.launch(Dispatchers.IO) {
-        repository.addNewTask(task.toEntityObject())
-        addTaskResult.emit(true)
+    val addTaskResult = MutableStateFlow(-1L)
+    fun addOrUpdateTask(task: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
+            addTaskResult.emit(repository.addNewTasks(task.toEntityObject()))
+        }
     }
-}
 
 }
