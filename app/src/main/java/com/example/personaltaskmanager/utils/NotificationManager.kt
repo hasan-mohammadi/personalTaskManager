@@ -10,17 +10,24 @@ import android.content.Intent
 import android.os.Build
 import com.example.personaltaskmanager.ui.add.MyNotificationPublisher
 
-const val NOTIFICATION_TITLE_KEY= "notification_title"
-const val NOTIFICATION_DESC_KEY= "notification_desc"
+const val NOTIFICATION_TITLE_KEY = "notification_title"
+const val NOTIFICATION_DESC_KEY = "notification_desc"
 const val NOTIFIER_CHANNEL_ID = "notifier_channel_id"
+
 class NotificationManager(val activity: Activity) {
 
     val CHANNEL_Name = "channel_name"
+
     init {
         createNotificationChannel()
     }
 
-    fun setupScheduledNotification(timeMillis: Long, title: String, description: String , requestCode:Int) {
+    fun setupScheduledNotification(
+        timeMillis: Long,
+        title: String,
+        description: String,
+        requestCode: Int
+    ) {
         createNotificationChannel()
         val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -31,7 +38,12 @@ class NotificationManager(val activity: Activity) {
 
 
         val pendingIntent = PendingIntent.getBroadcast(
-            activity.applicationContext, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT
+            activity.applicationContext,
+            requestCode,
+            intent,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                PendingIntent.FLAG_IMMUTABLE
+            else PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         alarmManager.setExact(
@@ -55,7 +67,8 @@ class NotificationManager(val activity: Activity) {
             notificationManager.createNotificationChannel(channel)
         }
     }
-    fun cancelNotification(requestCode:Int){
+
+    fun cancelNotification(requestCode: Int) {
         val alarmManager = activity.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent =
             Intent(activity.applicationContext, MyNotificationPublisher::class.java)
