@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.personaltaskmanager.data.model.AppTheme
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -18,7 +19,7 @@ private val Context.prefsDataStore by preferencesDataStore(
     name = PREFERENCES_NAME_USER
 )
 
-class SettingsDataStore @Inject constructor(val context: Context) {
+class SettingsDataStore @Inject constructor( @ApplicationContext val context: Context) {
 
 
     suspend fun  setAppTheme(theme : AppTheme) {

@@ -85,4 +85,12 @@ class MainFragment : Fragment() {
         }
     }
 
+    override fun onDestroy() {
+        searchJob?.cancel()
+        searchJob=null
+        taskAdapter.onItemClicked={}
+        binding.rvTasks.adapter=null
+        super.onDestroy()
+    }
+
 }
