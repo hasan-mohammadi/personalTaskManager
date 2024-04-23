@@ -18,7 +18,7 @@ const val POST_NOTIFICATION_PERMISSION_REQUEST_CODE = 100
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         installSplashScreen()
@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity() {
             )
         }
         setupObservables()
-
-
     }
 
     private fun setupObservables() {
